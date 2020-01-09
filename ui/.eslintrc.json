@@ -1,0 +1,44 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "tsconfig.json",
+    "tsconfigRootDir": "."
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "@typescript-eslint/tslint"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "react-app"
+  ],
+  "rules": {
+    "no-restricted-imports": ["error",
+      "lodash", "lodash/fp",
+      "date-fns", "date-fns/fp",
+      "@material-ui/core", "@material-ui/icons"
+    ],
+    "@typescript-eslint/array-type": ["error", {
+      "default": "array-simple"
+    }],
+    "@typescript-eslint/camelcase": ["error", {
+      "properties": "never"
+    }],
+    "@typescript-eslint/consistent-type-assertions": ["error", {
+      "assertionStyle": "as",
+      "objectLiteralTypeAssertions": "allow-as-parameter"
+    }],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/indent": ["error", 2, {
+      "ignoredNodes": ["ConditionalExpression"],
+      "SwitchCase": 1
+    }],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/tslint/config": ["error", {
+      "lintFile": "./tslint.json"
+    }]
+  }
+}

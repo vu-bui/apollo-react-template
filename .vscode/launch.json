@@ -1,0 +1,34 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    // {
+    //   "type": "node",
+    //   "request": "attach",
+    //   "name": "Attach by Process ID",
+    //   "processId": "${command:PickProcess}"
+    // },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug API",
+      "console": "externalTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "cwd": "${workspaceRoot}",
+      "args": [
+        "-r",
+        "ts-node/register",
+        "--inspect-brk=9229",
+        "./src/api/index.ts"
+      ],
+      "env": {
+        "name": "api"
+      },
+      "restart": true,
+      "protocol": "inspector",
+      "port": 9229
+    }
+  ]
+}

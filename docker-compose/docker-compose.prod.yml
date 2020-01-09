@@ -1,0 +1,51 @@
+version: '3.7'
+services:
+  ar:
+    image: vubui/apollo-react-template
+    volumes:
+      - ar-logs:/logs
+    environment:
+      - ROOT_URL
+      - CDN_URL
+      - GRAPHQL_ENDPOINT
+      - REST_ENDPOINT
+      - MONGO_URL
+      - QUERY_LIMIT
+      - LOG_FILE=/logs/ar.log
+      - TZ
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', 'http://localhost:4000']
+  web:
+    image: nginx:alpine
+    depends_on:
+      - ar
+    configs:
+      - source: web-config-template
+        target: /nginx.config.template
+    secrets:
+      - source: cert
+        target: cert.pem
+      - source: key
+        target: key.pem
+      - source: dhparam
+        target: dhparam.pem
+    ports:
+      - ${HTTP_PORT:-80}:80
+      - ${HTTPS_PORT:-443}:443
+    environment:
+      - ROOT_URL
+    command: /bin/sh -c "envsubst '$$ROOT_URL' < /nginx.config.template > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"
+    healthcheck:
+      test: ['CMD', 'wget', '--no-check-certificate', '--spider', 'https://localhost']
+volumes:
+  ar-logs:
+configs:
+  web-config-template:
+    file: ./nginx.config.template
+secrets:
+  cert:
+    file: ./ssl/cert.pem
+  key:
+    file: ./ssl/key.pem
+  dhparam:
+    file: ./ssl/dhparam.pem

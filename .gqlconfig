@@ -1,0 +1,17 @@
+{
+  "schema": {
+    "files": "src/api/graphql/schema.gql"
+  },
+  "query": {
+    "files": [
+      {
+        "match": "ui/src/**/*.ts",
+        "parser": ["EmbeddedQueryParser", { "startTag": "gql`", "endTag": "`" }]
+      },
+      {
+        "match": "ui/src/**/*.gql",
+        "parser": "QueryParser"
+      }
+    ]
+  }
+}

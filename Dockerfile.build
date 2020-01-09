@@ -1,0 +1,5 @@
+FROM node:12-alpine
+
+RUN set -o errexit -o nounset \
+  && echo "Installing tools" \
+  && apk add --no-cache docker zip

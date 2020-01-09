@@ -1,0 +1,33 @@
+type User {
+  id: ID!
+  username: String!
+  firstname: String!
+  lastname: String!
+  middlename: String
+}
+
+input UserInput {
+  username: String!
+  firstname: String!
+  lastname: String!
+  middlename: String
+}
+
+type Query {
+  # GET /api/me
+  me: User
+  # GET /api/users/{id}
+  user(id: ID!): User
+  # GET /api/users?ids={userIds}&userCodes={userCodes}&first={fromItem}&offset={pageSize}
+  users(ids: [ID!] userCodes: [String!] first: Float offset: Float): [User!]!
+}
+
+type Mutation {
+  # PATCH /api/me
+  updateMe(user: UserInput!): User
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}

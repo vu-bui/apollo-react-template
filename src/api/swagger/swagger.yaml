@@ -1,0 +1,173 @@
+swagger: "2.0"
+# those info are placeholder and will be replaced programmatically
+info:
+  title: Apollo React Template
+  version: "0.0.0-PLACEHOLDER"
+host: localhost:4000
+basePath: /api
+#
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+  - application/x-www-form-urlencoded
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+securityDefinitions:
+  bearer:
+    type: apiKey
+    in: header
+    name: Authorization
+security:
+  - bearer: []
+paths:
+  /swagger:
+    get:
+      tags:
+        - swagger
+      summary: Get swagger API documentation
+      responses:
+        200:
+          description: OK
+  /me:
+    get:
+      tags:
+        - user
+      summary: Get current logged-in user
+      responses: &user_ok_responses
+        <<: &default_responses
+          400:
+            $ref: "#/responses/BadRequest"
+          401:
+            $ref: "#/responses/Unauthorized"
+          403:
+            $ref: "#/responses/Forbidden"
+          default:
+            $ref: "#/responses/Default"
+        200:
+          description: OK
+          schema: &user_schema
+            $ref: "#/definitions/User"
+    put: &me_put
+      tags:
+        - user
+      summary: Update current user
+      parameters:
+        - name: user
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/UserInput"
+      responses: *user_ok_responses
+    patch: *me_put
+  /users:
+    get:
+      tags:
+        - user
+      summary: Get all users
+      parameters:
+        - $ref: "#/parameters/FirstQuery"
+        - $ref: "#/parameters/OffsetQuery"
+        - $ref: "#/parameters/IdsQuery"
+      responses:
+        <<: *default_responses
+        200:
+          description: OK
+          schema:
+            type: array
+            items: *user_schema
+  /users/{id}:
+    parameters: &id_path_param
+      - $ref: "#/parameters/IdPath"
+    get:
+      tags:
+        - user
+      summary: Get a user
+      responses: *user_ok_responses
+# common parameters
+parameters:
+  IdPath:
+    name: id
+    in: path
+    required: true
+    type: string
+  FirstQuery:
+    name: first
+    in: query
+    type: integer
+    format: int64
+  OffsetQuery:
+    name: offset
+    in: query
+    type: integer
+    format: int64
+  IdsQuery:
+    name: ids
+    in: query
+    type: array
+    items:
+      type: string
+# common reponses
+responses:
+    Default:
+      description: Error
+      schema: &error_schema
+        $ref: "#/definitions/Error"
+    BadRequest:
+      description: Bad Request
+      schema: *error_schema
+    Unauthorized:
+      description: Unauthorized
+      schema: *error_schema
+    Forbidden:
+      description: Forbidden
+      schema: *error_schema
+# complex objects have schema definitions
+definitions:
+  Error:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  Doc:
+    required:
+      - id
+    properties:
+      id:
+        type: string
+  UserInput:
+    required:
+      - firstname
+      - lastname
+    properties:
+      firstname:
+        type: string
+      lastname:
+        type: string
+      middlename:
+        type: string
+  User:
+    allOf:
+      - $ref: "#/definitions/Doc"
+      - required:
+          - username
+          - firstname
+          - lastlame
+        properties:
+          username:
+            type: string
+          firstname:
+            type: string
+          lastname:
+            type: string
+          middlename:
+            type: string
+# API groups
+tags:
+  - name: user
+    description: User API

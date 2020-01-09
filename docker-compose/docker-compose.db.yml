@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  mongo:
+    image: mongo
+    hostname: mongo
+    volumes:
+      - db-data:/data/db
+    command: ['--replSet', 'rs0']
+    healthcheck:
+      test: ['CMD', 'pgrep', 'mongod']
+  ar:
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URL=mongodb://mongo/apollo-react?replicaSet=rs0&retryWrites=true
+volumes:
+  db-data:

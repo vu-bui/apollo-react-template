@@ -7,7 +7,8 @@ import App from './app/App';
 import * as serviceWorker from './serviceWorker';
 
 (async () => {
-  window.config = await (await fetch('/config.json')).json();
+  const rootUrl = process.env.REACT_APP_ROOT_URL || process.env.PUBLIC_URL;
+  window.config = await (await fetch(`${rootUrl}/config.json`)).json();
   ReactDOM.render((
     <BrowserRouter>
       <App />

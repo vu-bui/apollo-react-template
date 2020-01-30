@@ -1,7 +1,8 @@
 import { require as rootPathRequire } from 'app-root-path';
 import { config } from 'dotenv';
+import expand from 'dotenv-expand';
 
-config();
+expand(config());
 
 export const isTest = process.env.NODE_ENV === 'test';
 export const isDev = !isTest && process.env.NODE_ENV !== 'production';
@@ -9,9 +10,9 @@ export const isProd = !isTest && !isDev;
 
 // load default configs
 if (isTest || isDev) {
-  config({
+  expand(config({
     path: '.env.example',
-  });
+  }));
 }
 
 // if the app is invoked directly from node

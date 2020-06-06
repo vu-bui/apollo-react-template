@@ -32,7 +32,7 @@
     "swagger": "cross-env swagger_swagger_fileName=src/api/swagger/swagger.yaml swagger project edit"
   },
   "dependencies": {
-    "apollo-server-express": "2.9.16",
+    "apollo-server-express": "2.14.2",
     "app-root-path": "3.0.0",
     "async-exit-hook": "2.0.1",
     "compression": "1.7.4",

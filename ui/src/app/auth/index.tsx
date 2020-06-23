@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             logout();
             rej(e);
           } else {
-            const user = (await client.query<{me: User}>({ query: meQuery })).data.me;
+            const user = (await client.query<{ me: User }>({ query: meQuery })).data.me;
             localStorage.setItem(TOKEN, token);
             // because the user returned from cache is always a new object, which will trigger a change when we call setUser()
             // so we will have to check if the user object changed or not before setting it.
@@ -139,8 +139,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 export const withAuth:
 <T extends WithAuthProps>(Component: React.ComponentType<T>) =>
 React.ComponentType<Pick<T, Exclude<keyof T, keyof WithAuthProps>>> =
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   (Component: any) =>
-    props =>
+    (props) =>
       <Component {...props} {...useContext(AuthContext)} />;
 
 export const useAuth = () => useContext(AuthContext);

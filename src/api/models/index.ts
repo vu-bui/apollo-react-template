@@ -2,7 +2,7 @@ import { Primitive } from 'utility-types';
 
 export * from './user';
 
-type ArrayType<T extends any[]> = T extends Array<infer U> ? U : never;
+type ArrayType<T extends any[]> = T extends (infer U)[] ? U : never;
 
 // type InputType<T> =
 //   T extends any[]
@@ -16,7 +16,7 @@ type ArrayType<T extends any[]> = T extends Array<infer U> ? U : never;
 
 type InputType<T> =
   T extends Primitive[]
-  ? Array<ArrayType<T>>
+  ? ArrayType<T>[]
   : T extends Primitive
   ? T
   : never

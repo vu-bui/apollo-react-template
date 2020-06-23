@@ -11,7 +11,6 @@
   ],
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "react-app"
   ],
@@ -22,20 +21,25 @@
       "@material-ui/core", "@material-ui/icons"
     ],
     "@typescript-eslint/array-type": ["error", {
-      "default": "array-simple"
-    }],
-    "@typescript-eslint/camelcase": ["error", {
-      "properties": "never"
+      "default": "array"
     }],
     "@typescript-eslint/consistent-type-assertions": ["error", {
       "assertionStyle": "as",
       "objectLiteralTypeAssertions": "allow-as-parameter"
     }],
     "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/indent": ["error", 2, {
       "ignoredNodes": ["ConditionalExpression"],
       "SwitchCase": 1
     }],
+    "@typescript-eslint/naming-convention": ["error",
+      { "selector": "default", "format": ["camelCase"] },
+      { "selector": "variable", "format": ["camelCase", "PascalCase", "UPPER_CASE"] },
+      { "selector": "parameter", "format": ["camelCase", "UPPER_CASE"] },
+      { "selector": "typeLike", "format": ["PascalCase"] },
+      { "selector": "memberLike", "format": null }
+    ],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/tslint/config": ["error", {
       "lintFile": "./tslint.json"

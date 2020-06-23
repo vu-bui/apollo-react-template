@@ -6,7 +6,7 @@ import { Root } from '.';
 
 export default {
   Query: {
-    me: (r: Root, p: {}, ctx: Context) => ctx.user || null,
+    me: (r: Root, p: unknown, ctx: Context) => ctx.user || null,
     user: async (r: Root, { id }: { id: string }) => (await UserService.getUsers({ ids: [id] }))[0],
     users: (r: Root, filter: UserService.UserFilter) => UserService.getUsers(filter),
   },
